@@ -36,8 +36,11 @@ def construccion_sql(sql, count, titulo, tipo, estado, orden="id", limite=20, of
             condiciones.append("1=1")
 
     if estado:
-        condiciones.append("estado = %s")
-        parametros.append(estado)
+        if estado != "todos":
+            condiciones.append("estado = %s")
+            parametros.append(estado)
+        else:
+            condiciones.append("1=1")
 
     if condiciones:
         sql += " WHERE " + " AND ".join(condiciones) 
@@ -57,5 +60,5 @@ def construccion_sql(sql, count, titulo, tipo, estado, orden="id", limite=20, of
     sql += " LIMIT %s OFFSET %s"
     parametros.append(limite)
     parametros.append(offset)
-
+    print(sql)
     return sql, parametros

@@ -16,6 +16,8 @@
         <option value="videojuego" {% if tipo == 'videojuego' %}selected{% endif %}> Videojuego </option>
     </select>
     <select name="status" class="status-library">
+        <option value="todos" {% if estado == 'todos' %}selected{% endif %}>
+        Todos </option>
         <option value="pendiente" {% if estado == 'pendiente' %}selected{% endif %}> Pendiente </option>
         <option value="en_progreso" {% if estado == 'en_progreso' %}selected{% endif %}> En progreso </option>
         <option value="finalizado" {% if estado == 'finalizado' %}selected{% endif %}> Completado </option>
