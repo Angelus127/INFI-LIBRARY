@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Detalles | Infinity Library{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="header">
+        <img src="{{ media.portada or url_for('static', filename='no-image.png') }}" alt="{{ media.titulo }}">
+        <div class="info">
+            <h1>{{ media.titulo }}</h1>
+
+            {% if media.autores %}
+                <p><strong>Autor:</strong> {{ media.autores | join(', ') }}</p>
+            {% endif %}
+
+            {% if media.generos %}
+                <div class="tags">
+                    {% for g in media.generos %}
+                        <span class="tag">{{ g }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="details">
+                {% if media.anio %}<p><strong>Año:</strong> {{ media.anio }}</p>{% endif %}
+                {% if media.paginas %}<p><strong>Páginas:</strong> {{ media.paginas }}</p>{% endif %}
+                {% if media.episodios %}<p><strong>Episodios:</strong> {{ media.episodios }}</p>{% endif %}
+                {% if media.volumenes %}<p><strong>Volúmenes:</strong> {{ media.volumenes }}</p>{% endif %}
+                {% if media.capitulos %}<p><strong>Capítulos:</strong> {{ media.capitulos }}</p>{% endif %}
+                {% if media.puntuacion_media %}<p><strong>Puntuación Media:</strong> {{ media.puntuacion_media }}</p>{% endif %}
+                <p><strong>Fuente:</strong> {{ media.fuente }}</p>
+            </div>
+
+            <p class="desc">{{ media.resumen or media.descripcion or "Sin descripción disponible." }}</p>
+        </div>
+    </div>
+
+    <form method="POST">
+        <h2>Agregar a tu colección</h2>
+        <input type="text" name="usuario" placeholder="Nombre de usuario" required>
+        <input type="number" name="puntuacion" min="1" max="9.9" step="0.1" placeholder="Puntuación (1.0 - 9.9)">
+        <select name="estado" required>
+            <option value="pendiente">Pendiente</option>
+            <option value="en_progreso">En progreso</option>
+            <option value="finalizado">Finalizado</option>
+            <option value="abandonado">Abandonado</option>
+            <option value="planeado">Planeado</option>
+        </select>
+        <textarea name="reseña" placeholder="Escribe tu opinión..." rows="4"></textarea>
+        <button type="submit">Guardar en biblioteca</button>
+    </form>
+</div>
+{% endblock %}

@@ -2,31 +2,28 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Infinity Library{% endblock %}</title>
+    <title>{{ title or "Infinity Library" }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <header class="navbar">
         <div class="navbar-left">
-            <a href="{{ url_for('search') }}" class="logo">∞ Infinity Library</a>
+            <a href="/" class="logo">∞ Infinity Library</a>
         </div>
         <nav class="navbar-right">
-            <a href="{{ url_for('search') }}">Inicio</a>
-            <a href="#">Mi colección</a>
-            <a href="#">Perfil</a>
+            <a href="{{ url_for('buscar') }}" class="nav-link">Buscar</a>
+            <a href="{{ url_for('catalogo') }}" class="nav-link">Catálogo</a>
+            <a href="#" class="nav-link">Favoritos</a>
+            <a href="#" class="nav-link">Acerca</a>
         </nav>
     </header>
 
-    <main class="main-content">
+    <main class="container">
         {% block content %}{% endblock %}
     </main>
 
-    <footer>
-        <p>© 2025 Infinity Library — Proyecto Flask experimental</p>
+    <footer class="footer">
+        <p>© 2025 Infinity Library — Desarrollado con Flask</p>
     </footer>
 </body>
 </html>

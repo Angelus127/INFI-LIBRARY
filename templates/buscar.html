@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Buscar | Infinity Library{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Buscar {{ tipo|capitalize }}</h1>
+    <form method="POST" class="search-form">
+        <input type="text" name="titulo" placeholder="Buscar por título..." required>
+        <select name="tipo">
+            <option value="LIBRO" {% if tipo == "LIBRO" %}selected{% endif %}>Libros</option>
+            <option value="ANIME" {% if tipo == "ANIME" %}selected{% endif %}>Animes</option>
+            <option value="MANGA" {% if tipo == "MANGA" %}selected{% endif %}>Mangas</option>
+        </select>
+        <button type="submit">Buscar</button>
+    </form>
+
+    {% if resultados %}
+    <div class="grid">
+        {% for r in resultados %}
+        <div class="card">
+            <a href="{{ url_for('detalles', media_id=r.id_api) }}">
+                <img src="{{ r.portada or url_for('static', filename='no-image.png') }}" alt="{{ r.titulo }}">
+                <div class="card-info">
+                    <h3>{{ r.titulo }}</h3>
+                    {% if r.generos %}
+                        <div class="tags">
+                            {% for g in r.generos[:3] %}
+                                <span class="tag">{{ g }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <p class="year">{{ r.anio or "Sin año" }}</p>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
