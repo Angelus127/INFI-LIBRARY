@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-import psycopg2, requests, json
+import psycopg2, requests, json, psycopg2.extras
 
 app = Flask(__name__)
 app.secret_key = "infinity-core"
@@ -12,7 +12,7 @@ conn = psycopg2.connect(
     host="localhost",
     port="5432"
 )
-cur = conn.cursor()
+cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 # Cache temporal
 media_cache = {}
@@ -44,10 +44,33 @@ def formatear_libro(item):
 
 def formatear_media_anilist(item):
     """Limpia y estructura los datos de AniList."""
-    title = item.get("title", {})
+    titleAll = item.get("title", {})
+    origin = item.get("countryOfOrigin")
+    format_ = item.get("format")
+    if origin == "JP":
+        title = titleAll.get("romaji") or titleAll.get("english")
+    elif origin == "KR":
+        title = titleAll.get("english") or titleAll.get("romaji")  
+    elif origin == "CN":
+        title = titleAll.get("english") or titleAll.get("romaji")
+    
+    if format_ == "MANGA":
+        if origin == "JP":
+            kind = "MANGA"
+        elif origin == "KR":
+            kind = "MANHWA"
+        elif origin == "CN":
+            kind = "MANHUA"
+    elif format_ in ("TV", "MOVIE", "OVA", "ONA"):
+        if origin == "JP":
+            kind = "ANIME"
+        elif origin == "CN":
+            kind = "DONGUA"
+    else:
+        kind = format_ or "UNKNOWN"
     return {
         "id_api": item.get("id"),
-        "titulo": title.get("romaji") or title.get("english") or title.get("native"),
+        "titulo": title,
         "portada": item.get("coverImage", {}).get("large"),
         "descripcion": item.get("description", ""),
         "puntuacion_media": item.get("averageScore"),
@@ -56,7 +79,8 @@ def formatear_media_anilist(item):
         "capitulos": item.get("chapters"),
         "generos": item.get("genres", []),
         "estado": item.get("status"),
-        "formato": item.get("format"),
+        "formato": format_,
+        "tipo": kind,
         "temporada": item.get("season"),
         "anio": item.get("seasonYear"),
         "duracion": item.get("duration"),
@@ -75,11 +99,17 @@ def buscar():
         tipo = request.form.get("tipo", "LIBRO").upper()
 
         if tipo == "LIBRO":
-            query = f"intitle:{titulo}+subject:fiction|novel"
-            url = f"https://www.googleapis.com/books/v1/volumes?q={query}&printType=books&maxResults=10"
+            base_url = f"https://www.googleapis.com/books/v1/volumes"
+            url=f"{base_url}?q=intitle:{titulo}&subject:fiction|romance|fantasy&printType=books&maxResults=10"
             res = requests.get(url).json()
             items = res.get("items", [])
             resultados = [formatear_libro(i) for i in items]
+            
+            if not items:
+                url=f"{base_url}?q=intitle:{titulo}&maxResults=10"
+                res = request.get(url).json()
+                items = res.get("items", [])
+                resultados = [formatear_libro(i) for i in items]
         else:
             query = '''
             query ($search: String, $type: MediaType) {
@@ -99,6 +129,7 @@ def buscar():
                         season
                         seasonYear
                         duration
+                        countryOfOrigin
                     }
                 }
             }
@@ -114,63 +145,6 @@ def buscar():
 
 
     return render_template("buscar.html", resultados=resultados, tipo=tipo)
-
-
-@app.route("/detalles/<string:media_id>", methods=["GET", "POST"])
-def detalles(media_id):
-    media = media_cache.get(media_id)
-    if not media:
-        return "Elemento no encontrado en caché. Realiza una búsqueda nuevamente."
-
-    tipo = "libro" if media.get("fuente") == "GoogleBooks" else (
-        "anime" if media.get("episodios") else "manga"
-    )
-
-    if request.method == "POST":
-        username = request.form["usuario"]
-        puntuacion = request.form.get("puntuacion")
-        estado = request.form["estado"]
-        reseña = request.form.get("reseña")
-
-        # Obtener ID del usuario
-        cur.execute("SELECT id FROM usuario WHERE username = %s", (username,))
-        usuario = cur.fetchone()
-        if not usuario:
-            return "Usuario no encontrado."
-        usuario_id = usuario[0]
-
-        # Insertar multimedia si no existe
-        cur.execute("SELECT id FROM multimedia WHERE datos->>'id_api' = %s", (media_id,))
-        existente = cur.fetchone()
-        if existente:
-            multimedia_id = existente[0]
-        else:
-            cur.execute(
-                "INSERT INTO multimedia (tipo, datos) VALUES (%s, %s) RETURNING id",
-                (tipo, json.dumps(media))
-            )
-            multimedia_id = cur.fetchone()[0]
-
-        # Insertar relación usuario-multimedia
-        cur.execute("""
-            INSERT INTO usuario_multimedia (usuario_id, multimedia_id, puntuacion, estado, opinion)
-            VALUES (%s, %s, %s, %s, %s);
-        """, (usuario_id, multimedia_id, puntuacion, estado, reseña))
-        conn.commit()
-
-        return redirect(url_for("buscar", tipo=tipo.upper()))
-
-    return render_template("detalles.html", media=media, tipo=tipo)
-
-
-@app.route("/catalogo")
-def catalogo():
-    cur.execute("SELECT tipo, datos FROM multimedia ORDER BY id DESC;")
-    registros = cur.fetchall()
-    catalogo = [{"tipo": tipo, **datos} for tipo, datos in registros]
-    return render_template("catalogo.html", catalogo=catalogo)
-
-# ------------------------------------ #
 
 if __name__ == "__main__":
     app.run(debug=True)
