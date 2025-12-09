@@ -1,12 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %} INFITY LIBRARY {% endblock %}
+{% block content %}
+
+<div id="search">
+    <form class="form_search" method="POST">
+        <input type="text" name="titulo" placeholder="Escribe el titulo" id="search_bar" required>
+        <select name="tipo" id="search_type">
+            <option value="LIBRO" {% if tipo == "LIBRO" %}selected{% endif %}>Libros</option>
+            <option value="ANIME" {% if tipo == "ANIME" %}selected{% endif %}>Animes</option>
+            <option value="MANGA" {% if tipo == "MANGA" %}selected{% endif %}>Mangas</option>
+        </select>
+        <button class="btn_search" type="submit">Buscar</button>
+    </form>
+</div>
+
+{% if resultados %}
+    <div id="catalog">
+        {% for item in resultados %}
+        <div id="card">
+            <a href="{{ url_for('media.guardar_media', media_id=item.id_api) }}">
+                <img src="{{ item.portada }}" alt="{{ item.titulo }}">
+                <div class="card-info">
+                    <h3>{{ item.titulo }}</h3>
+                    {% if item.generos %}
+                        <div class="tags">
+                            {% for g in item.generos[:3] %}
+                                <span class="tag">{{ g }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <p class="year">{{ item.anio or "Sin año" }}</p>
+                </div>
+            </a>
+        </div>
+        {% else %}
+            <p>No se encontraron resultados</p>
+        {% endfor %}
+    </div>
+{% endif %}
+
+
+{% endblock %}

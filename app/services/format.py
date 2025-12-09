@@ -1,3 +1,5 @@
+from .translate import traducir_generos, traducir_estado, traducir_temporada
+
 def formatear_libro(item):
     """Limpia y estructura los datos de Google Books."""
     info = item.get("volumeInfo", {})
@@ -13,7 +15,7 @@ def formatear_libro(item):
         "titulo": info.get("title"),
         "autores": info.get("authors", []),
         "isbn": isbn,
-        "generos": info.get("categories", []),
+        "generos": traducir_generos(info.get("categories", [])),
         "paginas": info.get("pageCount"),
         "portada": imagen,
         "resumen": info.get("description", ""),
@@ -56,11 +58,11 @@ def formatear_media_anilist(item):
         "episodios": item.get("episodes"),
         "volumenes": item.get("volumes"),
         "capitulos": item.get("chapters"),
-        "generos": item.get("genres", []),
-        "estado": item.get("status"),
+        "generos": traducir_generos(item.get("genres", [])),
+        "estado": traducir_estado(item.get("status")),
         "formato": format_,
         "tipo": kind,
-        "temporada": item.get("season"),
+        "temporada": traducir_temporada(item.get("season")),
         "anio": item.get("seasonYear"),
         "duracion": item.get("duration"),
         "fuente": "AniList"

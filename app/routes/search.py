@@ -1,5 +1,5 @@
-
-from flask import Flask, render_template, request, redirect, url_for, Blueprint
+from flask import Flask, render_template, request, redirect, url_for, Blueprint, session
+from ..services.temp import temp_create
 from ..services.format import formatear_libro, formatear_media_anilist
 import requests
 
@@ -11,7 +11,7 @@ search = Blueprint("search", __name__, template_folder='templates')
 @search.route("/", methods=["GET", "POST"])
 def buscar():
     tipo = request.args.get("tipo", "LIBRO")
-    resultados = None
+    resultados = []
 
     if request.method == "POST":
         titulo = request.form["titulo"]
@@ -26,7 +26,7 @@ def buscar():
             
             if not items:
                 url=f"{base_url}?q=intitle:{titulo}&maxResults=10"
-                res = request.get(url).json()
+                res = requests.get(url).json()
                 items = res.get("items", [])
                 resultados = [formatear_libro(i) for i in items]
         else:
@@ -60,6 +60,8 @@ def buscar():
 
         for item in resultados:
             media_cache[str(item["id_api"])] = item
-
+        
+        temp_file_name = temp_create(media_cache)
+        session['media_cache_file'] = temp_file_name
 
     return render_template("buscar.html", resultados=resultados, tipo=tipo)
