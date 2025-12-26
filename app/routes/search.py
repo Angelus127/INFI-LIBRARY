@@ -8,7 +8,7 @@ media_cache = {}
 search = Blueprint("search", __name__, template_folder='templates')
 
 
-@search.route("/", methods=["GET", "POST"])
+@search.route("/buscar", methods=["GET", "POST"])
 def buscar():
     tipo = request.args.get("tipo", "LIBRO")
     resultados = []

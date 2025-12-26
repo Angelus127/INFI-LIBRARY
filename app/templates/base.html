@@ -4,9 +4,22 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}Infinite Libary{% endblock %}</title>
 </head>
 <body>
+    <nav>
+        <ul>
+            <a href="{{ url_for('home.index') }}">
+                <li class="nav-element">INICIO</li>
+            </a><a href="{{ url_for('search.buscar') }}">
+                <li class="nav-element">BUSCAR</li>
+            </a><a href="{{ url_for('library.biblioteca') }}">
+                <li class="nav-element">BIBLIOTECA</li>
+            </a><a href="#">
+                <li class="nav-element">OPCIONES</li>
+            </a>
+        </ul>
+    </nav>
     {% block content %}{% endblock %}
 </body>
 </html>

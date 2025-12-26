@@ -67,3 +67,14 @@ def formatear_media_anilist(item):
         "duracion": item.get("duration"),
         "fuente": "AniList"
     }
+
+def format_json(info):
+    library = []
+    for fila in info:
+        library.append({
+            "id": fila[0],
+            "categoria": fila[1],
+            **fila[2],
+            "fecha_agregado": fila[3]
+        })
+    return library

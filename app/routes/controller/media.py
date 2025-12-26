@@ -28,14 +28,12 @@ def guardar_media(media_id):
         estado = request.form["estado"]
         reseña = request.form.get("reseña")
 
-        # Obtener ID del usuario
         cur.execute("SELECT id FROM usuario WHERE username = %s", (username,))
         usuario = cur.fetchone()
         if not usuario:
             return "Usuario no encontrado."
         usuario_id = usuario[0]
 
-        # Insertar multimedia si no existe
         cur.execute("SELECT id FROM multimedia WHERE datos->>'id_api' = %s", (media_id,))
         existente = cur.fetchone()
         if existente:
@@ -47,7 +45,6 @@ def guardar_media(media_id):
             )
             multimedia_id = cur.fetchone()[0]
 
-        # Insertar relación usuario-multimedia
         cur.execute("""
             INSERT INTO usuario_multimedia (usuario_id, multimedia_id, puntuacion, estado, opinion)
             VALUES (%s, %s, %s, %s, %s);
@@ -55,6 +52,22 @@ def guardar_media(media_id):
         conn.commit()
         temp_cleanup(temp_file_name)
 
-        return redirect(url_for("buscar", tipo=tipo.upper()))
+        return redirect(url_for("search.buscar", tipo=tipo.upper()))
 
     return render_template("agregar.html", media=media, tipo=tipo)
+
+@media.route("/eliminar/<string:media_id>", methods=["GET", "POST"])
+def eliminar(media_id):
+    conn = conectar()
+    if conn: 
+        cur = dict_cursor(conn)
+        try:
+            cur.execute("DELETE FROM multimedia WHERE id = %s", (media_id,))
+            conn.commit()
+        except Exception as e:
+            print("No se encontro registros: ", e)
+            return render_template("error.html", e=e)
+
+    return redirect(url_for("library.multimedia"))
+
+    

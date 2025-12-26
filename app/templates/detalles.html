@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %} {{media.titulo}} {% endblock %}
+{% block content %}
+
+<div id="details_media">
+    {% if media.portada %} <img src="{{ media.portada }}" alt="{{ media.titulo }}"> {% endif %}
+    {% if media.titulo %} <h2>{{ media.titulo }}</h2> {% endif %}
+    {% if media.autores %}
+        {% for a in media.autores %}
+            <h3> {{ a }}</h3>
+        {% endfor %}
+    {% endif %}
+    {% if media.anio %} <p class="year"> {{ media.anio }} </p> {% endif %}
+    {% if media.descripcion or media.resumen %} <p class="resume" >{{ media.descripcion or media.resumen }}</p> {% endif %}
+    {% if media.generos %}
+        {% for g in media.generos[:3] %}
+            <p class="genre"> {{ g }} </p>
+        {% endfor %}
+    {% endif %}
+    {% if media.estado %} <p> {{ media.estado }} </p> {% endif %}
+    {% if media.formato %} <p> {{ media.formato }} </p> {% endif %}
+    {% if media.tipo %} <p> {{ media.tipo }} </p> {% endif %}
+    {% if media.paginas %} <p> {{ media.paginas }} </p> {% endif %}
+    {% if media.temporada %} <p> {{ media.temporada }} </p> {% endif %}
+</div>
+
+<div id="details_user">
+    {% if media.estado_usuario %} <h4> {{ media.estado_usuario }} </h4> {% endif %}
+    {% if media.puntuacion %} <h3> {{ media.puntuacion }} </h3> {% endif %}
+    {% if media.opinion %} <p> {{ media.opinion }} </p> {% endif %}
+</div>
+
+<div id="edit">
+    <form action="{{ url_for('media.eliminar', media_id=media.id) }}" method="post" onsubmit="return confirm('¿Seguro que deseas borrar este elemento?');">
+        <button type="submit" class="btn-borrar">🗑️ Borrar</button>
+    </form>
+</div>
+
+{% endblock %}

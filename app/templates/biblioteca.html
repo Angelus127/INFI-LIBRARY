@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %} Biblioteca {% endblock %}
+{% block content %}
+
+
+<form class="form-library" method="POST">
+    <input type="text" name="title" placeholder="Busqueda por titulo" id="search-bar-library">
+    <select name="type" id="type-bar-library">
+        <option value="anime"> Anime </option>
+        <option value="libro"> Libro </option>
+        <option value="manga"> Manga </option>
+    </select>
+    <button type="submit">Buscar</button>     
+</form>
+<div id="library">
+    {% for item in library %}
+        <div class="card-library">
+            <a href="{{ url_for('library.detalles', id=item.id) }}">
+                <img src="{{ item.portada }}" alt="{{ item.titulo }}">
+                <div class="card-library-info">
+                    <h3>{{ item.titulo }}</h3>
+                    <h4>{{ item.puntuacion }}</h4>
+                        {% if item.generos %}
+                            <div class="tags">
+                                {% for g in item.generos[:3] %}
+                                    <span class="tag">{{ g }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    <p class="type">{{ item.tipo }}</p>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
