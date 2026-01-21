@@ -19,11 +19,17 @@ TRADUCCION_GENEROS = {
     "Thriller": "Suspenso",
     "Fiction": "Ficción",
     "Juvenile Fiction": "Ficción juvenil",
+    "Young Adult": "Adulto Joven",
     "Young Adult Fiction": "Ficción juvenil adulta",
     "Literary Criticism": "Crítica literaria",
     "History": "Historia",
     "Courts and courtiers": "Cortes y cortesanos",
     "Angels": "Ángeles",
+    "Philosophy": "Filosofia",
+    "Classics": "Clasico",
+    "Treasure": "Tesoro",
+    "Spirituality": "Espiritual",
+    "Self-Help": "Auto-Ayuda"
 }
 
 TRADUCCION_TEMPORADAS = {

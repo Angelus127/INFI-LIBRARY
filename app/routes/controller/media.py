@@ -1,5 +1,6 @@
 from flask import Flask, Blueprint, session, request, render_template, redirect, url_for
 from ...services.temp import temp_read, temp_cleanup
+from ...services.genres import display_genre
 from app.db import conectar, dict_cursor
 import os, json
 
@@ -15,6 +16,7 @@ def guardar_media(media_id):
     media = media_cache.get(media_id)
     if not media:
         return "Elemento no encontrado en cache"
+    print(media)
 
     tipo = "libro" if media.get("fuente") == "GoogleBooks" else (
         "anime" if media.get("episodios") else "manga"
@@ -54,7 +56,7 @@ def guardar_media(media_id):
 
         return redirect(url_for("search.buscar", tipo=tipo.upper()))
 
-    return render_template("agregar.html", media=media, tipo=tipo)
+    return render_template("agregar.html", media=media, tipo=tipo, generos=display_genre())
 
 @media.route("/eliminar/<string:media_id>", methods=["GET", "POST"])
 def eliminar(media_id):
@@ -68,6 +70,6 @@ def eliminar(media_id):
             print("No se encontro registros: ", e)
             return render_template("error.html", e=e)
 
-    return redirect(url_for("library.multimedia"))
+    return redirect(url_for("library.biblioteca"))
 
     

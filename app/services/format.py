@@ -1,30 +1,40 @@
 from .translate import traducir_generos, traducir_estado, traducir_temporada
 
-def formatear_libro(item):
-    """Limpia y estructura los datos de Google Books."""
-    info = item.get("volumeInfo", {})
-    imagen = info.get("imageLinks", {}).get("thumbnail", "")
-    isbn = ""
-    for i in info.get("industryIdentifiers", []):
-        if i.get("type") == "ISBN_13":
-            isbn = i.get("identifier")
-            break
+def formatear_libro(data):
+    book_info = data.get('book', {})
 
-    return {
-        "id_api": item.get("id"),
-        "titulo": info.get("title"),
-        "autores": info.get("authors", []),
-        "isbn": isbn,
-        "generos": traducir_generos(info.get("categories", [])),
-        "paginas": info.get("pageCount"),
-        "portada": imagen,
-        "resumen": info.get("description", ""),
-        "anio": info.get("publishedDate", ""),
-        "fuente": "GoogleBooks"
+    autores = [
+        c['author']['name'] 
+        for c in book_info.get('contributions', []) 
+        if 'author' in c
+    ]
+
+    genre = book_info.get("cached_tags", {}).get("Genre")
+    lista_generos = []
+    if genre:
+        lista_generos = [item.get("tag") for item in genre]
+
+    json_simplificado = {
+        "isbn_13": data.get("isbn_13"),
+        "isbn_10": data.get("isbn_10"),
+        "titulo": data.get("title"),
+        "portada": data.get("image", {}).get("url") if data.get("image") else None,
+        "editorial": data.get("publisher", {}).get("name") if data.get("publisher") else None,
+        "rating": book_info.get("rating"),
+        "anio": book_info.get("release_date"),
+        "id_api": book_info.get("id"),
+        "subtitulo": book_info.get("subtitle"),
+        "autores": autores,
+        "paginas": book_info.get("pages"),
+        "descripcion": book_info.get("description"),
+        "generos": traducir_generos(lista_generos)
     }
+    
+    return json_simplificado
 
 def formatear_media_anilist(item):
     """Limpia y estructura los datos de AniList."""
+    kind = None
     titleAll = item.get("title", {})
     origin = item.get("countryOfOrigin")
     format_ = item.get("format")

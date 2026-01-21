@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, Blueprint, session
 from ..services.temp import temp_create
 from ..services.format import formatear_libro, formatear_media_anilist
-import requests
+import requests, os
+from dotenv import load_dotenv
 
 media_cache = {}
 
@@ -18,21 +19,64 @@ def buscar():
         tipo = request.form.get("tipo", "LIBRO").upper()
 
         if tipo == "LIBRO":
-            base_url = f"https://www.googleapis.com/books/v1/volumes"
-            url=f"{base_url}?q=intitle:{titulo}&subject:fiction|romance|fantasy&printType=books&maxResults=10"
-            res = requests.get(url).json()
-            items = res.get("items", [])
-            resultados = [formatear_libro(i) for i in items]
+            url = "https://api.hardcover.app/v1/graphql"
+
+            query = """
+            query GetEditionsFromTitle ($titulo: String!) {
+                editions(where: { title: { _eq: $titulo } }){
+                    isbn_13
+                    isbn_10
+                    title
+                    image {
+                        url
+                    }
+                    publisher {
+                        name
+                    }
+                    book {
+                        id
+                        subtitle
+                        contributions {
+                            author {
+                                name
+                            }
+                        }
+                        release_date
+                        pages
+                        description
+                        rating
+                        cached_tags
+                    }
+                }
+            }
+            """
+
+            headers = {
+                "Authorization": f"Bearer {os.getenv('BOOKS_API')}",
+                "Content-Type": "application/json"
+            }
+
+            res = requests.post(
+                url,
+                headers=headers,
+                json={
+                    "query": query,
+                    "variables": {
+                        "titulo": titulo
+                    }
+                }
+            ).json()
+
+            if "errors" in res:
+                print("GRAPHQL ERROR:", res["errors"])
+
+            libros = res.get("data", {}).get("editions", [])
+            resultados = [formatear_libro(b) for b in libros]
             
-            if not items:
-                url=f"{base_url}?q=intitle:{titulo}&maxResults=10"
-                res = requests.get(url).json()
-                items = res.get("items", [])
-                resultados = [formatear_libro(i) for i in items]
         else:
             query = '''
             query ($search: String, $type: MediaType) {
-                Page(perPage: 10) {
+                Page(perPage: 20) {
                     media(search: $search, type: $type) {
                         id
                         title { romaji english native }

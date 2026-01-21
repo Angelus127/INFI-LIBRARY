@@ -17,9 +17,8 @@
 {% if resultados %}
     <div id="catalog">
         {% for item in resultados %}
-        <div id="card">
-            <a href="{{ url_for('media.guardar_media', media_id=item.id_api) }}">
-                <img src="{{ item.portada }}" alt="{{ item.titulo }}">
+            <a id="card" href="{{ url_for('media.guardar_media', media_id=item.id_api) }}">
+                <img class="img_gallery" src="{{ item.portada }}" alt="{{ item.titulo }}">
                 <div class="card-info">
                     <h3>{{ item.titulo }}</h3>
                     {% if item.generos %}
@@ -32,7 +31,6 @@
                     <p class="year">{{ item.anio or "Sin año" }}</p>
                 </div>
             </a>
-        </div>
         {% else %}
             <p>No se encontraron resultados</p>
         {% endfor %}

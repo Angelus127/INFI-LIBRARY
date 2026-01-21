@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint, url_for, render_template, request
-from ..db import conectar, dict_cursor 
+from ..db import conectar, dict_cursor  
 from ..services.format import format_json
+from ..services.count import contador
 
 library = Blueprint("library", __name__, template_folder='templates')
 
@@ -10,6 +11,8 @@ def biblioteca():
     tipo = 'libro'
     conn = conectar()
     cur = dict_cursor(conn)
+
+    conteos = contador()
 
     if request.method == 'POST':
         try:
@@ -35,7 +38,7 @@ def biblioteca():
             cur.execute(sql, parametros)
             info = cur.fetchall()
             library = format_json(info)
-            return render_template("biblioteca.html", library=library)
+            return render_template("biblioteca.html", library=library, conteos=conteos)
         except Exception as e:
             print("No se encontro registros: ", e)
             return render_template("error.html", e=e)
@@ -44,7 +47,7 @@ def biblioteca():
             cur.execute("SELECT * FROM multimedia ORDER BY id DESC")
             info = cur.fetchall()
             library = format_json(info)
-            return render_template("biblioteca.html", library=library)
+            return render_template("biblioteca.html", library=library, conteos=conteos)
         except Exception as e:
             print("No se encontro registros: ", e)
             return render_template("error.html", e=e)
@@ -54,24 +57,19 @@ def detalles(id):
     conn = conectar()
     cur = dict_cursor(conn)
     try:
-        cur.execute("SELECT * FROM multimedia WHERE id = %s", (id,))
+        cur.execute("SELECT * FROM multimediaView WHERE id = %s", (id,))
         info = cur.fetchone()
-    except Exception as e:
-        return render_template('error.html', e=e)
-    
-    try:
-        cur.execute("SELECT * FROM usuario_multimedia WHERE multimedia_id = %s", (id,))
-        user_info = cur.fetchone()
     except Exception as e:
         return render_template('error.html', e=e)
     
     media = {
         "id": info[0],
-        "categoria": info[1],
-        **info[2],
-        "fecha_agregado": info[3],
-        "puntuacion": user_info[3],
-        "estado_usuario": user_info[4],
-        "opinion": user_info[5]
+        "id_registro": info[1],
+        "categoria": info[2],
+        **info[3],
+        "fecha_agregado": info[4],
+        "puntuacion": info[5],
+        "estado_usuario": info[6],
+        "opinion": info[7]
     }
     return render_template('detalles.html', media=media)

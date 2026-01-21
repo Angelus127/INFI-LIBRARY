@@ -36,6 +36,12 @@
             <option value="abandonado"> Abandonado </option>
         </select>
         <input type="text" name="reseña" id="review">
+        {% for genre in generos %}
+            <label class="checkbox-btn">
+                <input type="checkbox" name="generos" id="genres" value="{{genre}}">
+                <span>{{genre}}</span>
+            </label>
+        {% endfor %}
         <button type="submit" id="btn_user_form">Agregar</button>
     </form>
 </div>

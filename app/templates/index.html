@@ -4,4 +4,11 @@
 
 <h1>Bienvenido a Infinite library</h1>
 
+<div class="counter">
+    <span>Total: {{ conteos.get('total', 0) }}</span>
+    <span>Animes: {{ conteos.get('anime', 0) }}</span>
+    <span>Libros: {{ conteos.get('libro', 0) }}</span>
+    <span>Mangas: {{ conteos.get('manga', 0) }}</span>
+  </div>
+
 {% endblock %}

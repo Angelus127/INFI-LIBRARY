@@ -1,0 +1,389 @@
+/* =========================
+   RESET & BASE
+========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #000000;
+    color: #eaeaea;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.5;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.img_gallery {
+	width: 100%;
+	aspect-ratio: 3 / 4;
+	object-fit: cover;
+	display: block;
+	margin: 0 auto;
+    border-radius: 10px;
+	background: #000000;
+}
+
+
+/* =========================
+   TITULOS
+========================= */
+h1, h2, h3, h4 {
+    color: #8E05C2;
+    font-weight: 600;
+}
+
+h1 {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+/* =========================
+   FORMULARIOS
+========================= */
+form {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+input, select {
+    background: #150050;
+    border: 1px solid #3F0071;
+    color: #fff;
+    padding: 0.6rem 0.8rem;
+    border-radius: 8px;
+    outline: none;
+}
+
+input::placeholder {
+    color: #bba6d6;
+}
+
+button {
+    background: linear-gradient(135deg, #610094, #8E05C2);
+    border: none;
+    color: #fff;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+/* =========================
+   SEARCH / LIBRARY
+========================= */
+#search,
+.form-library {
+    margin: 2rem auto;
+}
+
+/* =========================
+   GRID CATALOGOS
+========================= */
+#catalog,
+#library {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    padding: 1.5rem;
+}
+
+/* =========================
+   CARDS
+========================= */
+#card,
+.card-library {
+    background: #150050;
+	max-width: 240px;
+    border: 1px solid #3F0071;
+	display: flex;
+	flex-direction: column;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s;
+	align-content: center;
+}
+
+#card:hover,
+.card-library:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(142, 5, 194, 0.35);
+}
+
+.card-info,
+.card-library-info {
+    padding: 0.8rem;
+	text-align: center;
+}
+
+.card-info h3,
+.card-library-info h3 {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+}
+
+.year,
+.type {
+    font-size: 0.8rem;
+    color: #cfa7ff;
+}
+
+/* =========================
+   TAGS / GENEROS
+========================= */
+.tags {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin: 0.4rem 0;
+}
+
+.tag {
+    background: #700B97;
+    color: #fff;
+    padding: 0.2rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+}
+
+/* =========================
+   DETALLES MEDIA
+========================= */
+#details_media {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: #150050;
+    border-radius: 16px;
+    border: 1px solid #3F0071;
+
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+
+#details_media img {
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+
+.resume {
+    margin: 1rem 0;
+    color: #e0d3ff;
+}
+
+.genre {
+    display: inline-block;
+    background: #610094;
+    padding: 0.3rem 0.6rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    margin-right: 0.4rem;
+}
+
+/* =========================
+   DETALLES USUARIO
+========================= */
+#details_user {
+    max-width: 900px;
+    margin: 1rem auto;
+    padding: 1rem;
+    background: #3F0071;
+    border-radius: 14px;
+}
+
+/* =========================
+   USER FORM
+========================= */
+#user_input {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: #150050;
+    border-radius: 16px;
+    border: 1px solid #3F0071;
+}
+
+#user_form {
+    justify-content: space-between;
+}
+
+/* =========================
+   BOTON BORRAR
+========================= */
+.btn-borrar {
+    background: #700B97;
+    margin-top: 1rem;
+}
+
+/* =========================
+   CONTADOR HOME
+========================= */
+.counter {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.counter span {
+    background: #150050;
+    border: 1px solid #3F0071;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    color: #e8d8ff;
+    font-weight: 500;
+}
+ /* =========================
+   HEADER & NAV
+========================= */
+header {
+    background: #000000;
+    border-bottom: 1px solid #3F0071;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav {
+    max-width: 1200px;
+    margin: auto;
+    padding: 1rem;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    list-style: none;
+}
+
+nav a {
+    position: relative;
+}
+
+.nav-element {
+    color: #cfa7ff;
+    font-weight: 500;
+    letter-spacing: 1px;
+    transition: color 0.25s;
+}
+
+/* subrayado elegante */
+.nav-element::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0%;
+    height: 2px;
+    background: linear-gradient(90deg, #610094, #8E05C2);
+    transition: width 0.3s;
+}
+
+nav a:hover .nav-element {
+    color: #ffffff;
+}
+
+nav a:hover .nav-element::after {
+    width: 100%;
+}
+
+/* =========================
+   MAIN
+========================= */
+main {
+    min-height: calc(100vh - 140px);
+    padding-bottom: 3rem;
+}
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+    border-top: 1px solid #3F0071;
+    background: #000000;
+    padding: 1.5rem;
+    text-align: center;
+    color: #9f7ad1;
+    font-size: 0.85rem;
+}
+
+/* =========================
+   SCROLLBAR (detalle moderno)
+========================= */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #3F0071;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #8E05C2;
+}
+
+@media (max-width: 768px) {
+    #details_media {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    #details_media img {
+        max-width: 240px;
+        margin: 0 auto;
+    }
+}
+
+.checkbox-btn{
+    position: relative;
+    cursor: pointer;
+}
+
+.checkbox-btn input{
+    display: none;
+}
+
+.checkbox-btn span{
+    display: inline-block;
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid #f5f5f5;
+    color: #eaeaea;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.checkbox-btn:hover span{
+    border-color: #888;
+}
+
+.checkbox-btn input:checked + span{
+    background-color: #4f46e5;
+    border-color: #4f46e5;
+    color: white;
+}

@@ -14,9 +14,8 @@
 </form>
 <div id="library">
     {% for item in library %}
-        <div class="card-library">
-            <a href="{{ url_for('library.detalles', id=item.id) }}">
-                <img src="{{ item.portada }}" alt="{{ item.titulo }}">
+            <a class="card-library" href="{{ url_for('library.detalles', id=item.id) }}">
+                <img class="img_gallery" src="{{ item.portada }}" alt="{{ item.titulo }}">
                 <div class="card-library-info">
                     <h3>{{ item.titulo }}</h3>
                     <h4>{{ item.puntuacion }}</h4>
@@ -30,7 +29,6 @@
                     <p class="type">{{ item.tipo }}</p>
                 </div>
             </a>
-        </div>
     {% endfor %}
 </div>
 
