@@ -10,6 +10,8 @@
             <h3> {{ a }}</h3>
         {% endfor %}
     {% endif %}
+
+    {% if media.rating %} <p class="rating"> {{ media.rating }} </p> {% endif %}
     {% if media.anio %} <p class="year"> {{ media.anio }} </p> {% endif %}
     {% if media.descripcion or media.resumen %} <p class="resume" >{{ media.descripcion or media.resumen }}</p> {% endif %}
     {% if media.generos %}
@@ -17,16 +19,12 @@
             <p class="genre"> {{ g }} </p>
         {% endfor %}
     {% endif %}
-    {% if media.estado %} <p> {{ media.estado }} </p> {% endif %}
-    {% if media.formato %} <p> {{ media.formato }} </p> {% endif %}
     {% if media.tipo %} <p> {{ media.tipo }} </p> {% endif %}
-    {% if media.paginas %} <p> {{ media.paginas }} </p> {% endif %}
-    {% if media.temporada %} <p> {{ media.temporada }} </p> {% endif %}
 </div>
 
 <div id="details_user">
     {% if media.estado_usuario %} <h4> {{ media.estado_usuario }} </h4> {% endif %}
-    {% if media.puntuacion %} <h3> {{ media.puntuacion }} </h3> {% endif %}
+    {% if media.puntaje %} <h3> {{ media.puntaje }} </h3> {% endif %}
     {% if media.opinion %} <p> {{ media.opinion }} </p> {% endif %}
 </div>
 

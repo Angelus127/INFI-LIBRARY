@@ -18,7 +18,8 @@
                 <img class="img_gallery" src="{{ item.portada }}" alt="{{ item.titulo }}">
                 <div class="card-library-info">
                     <h3>{{ item.titulo }}</h3>
-                    <h4>{{ item.puntuacion }}</h4>
+                    <h4>{{ item.categoria }}</h4>
+                    <h4>{{ item.puntaje }}</h4>
                         {% if item.generos %}
                             <div class="tags">
                                 {% for g in item.generos[:3] %}
@@ -26,7 +27,6 @@
                                 {% endfor %}
                             </div>
                         {% endif %}
-                    <p class="type">{{ item.tipo }}</p>
                 </div>
             </a>
     {% endfor %}

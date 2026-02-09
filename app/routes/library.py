@@ -1,6 +1,6 @@
 from flask import Flask, Blueprint, url_for, render_template, request
 from ..db import conectar, dict_cursor  
-from ..services.format import format_json
+from app.formatters.json_formatter import format_json
 from ..services.count import contador
 
 library = Blueprint("library", __name__, template_folder='templates')
@@ -19,7 +19,7 @@ def biblioteca():
             titulo = request.form["title"]
             tipo = request.form["type"]
 
-            sql = "SELECT * from multimedia"
+            sql = "SELECT * from multimediaView"
             condiciones = []
             parametros = []
             if titulo:
@@ -44,7 +44,7 @@ def biblioteca():
             return render_template("error.html", e=e)
     else:
         try:
-            cur.execute("SELECT * FROM multimedia ORDER BY id DESC")
+            cur.execute("SELECT * FROM multimediaView ORDER BY id DESC")
             info = cur.fetchall()
             library = format_json(info)
             return render_template("biblioteca.html", library=library, conteos=conteos)
@@ -68,7 +68,7 @@ def detalles(id):
         "categoria": info[2],
         **info[3],
         "fecha_agregado": info[4],
-        "puntuacion": info[5],
+        "puntaje": info[5],
         "estado_usuario": info[6],
         "opinion": info[7]
     }

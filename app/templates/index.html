@@ -2,13 +2,14 @@
 {% block title %} Inicio {% endblock %}
 {% block content %}
 
-<h1>Bienvenido a Infinite library</h1>
+<h1 id="title_main">Bienvenido a Infinite library</h1>
 
 <div class="counter">
-    <span>Total: {{ conteos.get('total', 0) }}</span>
-    <span>Animes: {{ conteos.get('anime', 0) }}</span>
-    <span>Libros: {{ conteos.get('libro', 0) }}</span>
-    <span>Mangas: {{ conteos.get('manga', 0) }}</span>
-  </div>
+  <span><strong>{{ conteos.get('total', 0) }}</strong>Total</span>
+  <span><strong>{{ conteos.get('anime', 0) }}</strong>Animes</span>
+  <span><strong>{{ conteos.get('libro', 0) }}</strong>Libros</span>
+  <span><strong>{{ conteos.get('manga', 0) }}</strong>Mangas</span>
+</div>
+
 
 {% endblock %}

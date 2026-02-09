@@ -26,7 +26,7 @@
 
 <div id="user_input">
     <form id="user_form" method="post">
-        <input type="text" placeholder="Ingrese el usuario" name="usuario" id="user" required>
+        <input type="text" placeholder="Ingrese el usuario" name="usuario" id="user" value="Angelus" required>
         <input type="number" min="5.0" max="9.9" step="0.1" name="puntuacion" id="score" value="5.0">
         <select name="estado" id="status">
             <option value="en_progreso"> En progreso </option>
@@ -35,7 +35,8 @@
             <option value="planeado"> Planeado </option>
             <option value="abandonado"> Abandonado </option>
         </select>
-        <input type="text" name="reseña" id="review">
+        <input type="text" name="reseña" placeholder="Ingrese su Opinion" id="review">
+        <input type="text" placeholder="Ingrese el titulo" name="title" id="title">
         {% for genre in generos %}
             <label class="checkbox-btn">
                 <input type="checkbox" name="generos" id="genres" value="{{genre}}">
