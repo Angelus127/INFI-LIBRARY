@@ -2,10 +2,12 @@ from flask import Flask, Blueprint, url_for, render_template, request
 from ..db import conectar, dict_cursor  
 from app.formatters.json_formatter import format_json
 from ..services.count import contador
+from app.utils.auth import login_required
 
 library = Blueprint("library", __name__, template_folder='templates')
 
 @library.route("/biblioteca", methods=["GET", "POST"])
+@login_required
 def biblioteca():
     library = []
     tipo = 'libro'
@@ -53,6 +55,7 @@ def biblioteca():
             return render_template("error.html", e=e)
 
 @library.route("/biblioteca/<string:id>")
+@login_required
 def detalles(id):
     conn = conectar()
     cur = dict_cursor(conn)

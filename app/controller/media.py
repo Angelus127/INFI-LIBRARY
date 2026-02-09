@@ -1,12 +1,14 @@
 from flask import Blueprint, session, request, render_template, redirect, url_for
 from app.cache.cache import cache
 from app.services.genres_service import display_genre
+from app.utils.auth import login_required
 from app.db import conectar, dict_cursor
 import json
 
 media = Blueprint("media", __name__, template_folder='templates')
 
 @media.route("/agregar/<string:media_id>", methods=["GET", "POST"])
+@login_required
 def guardar(media_id):
     media = cache.get(media_id)
 
@@ -19,7 +21,7 @@ def guardar(media_id):
         conn = conectar()
         cur = dict_cursor(conn)
 
-        username = request.form["usuario"]
+        username = session["username"]
         puntuacion = request.form.get("puntuacion")
         estado = request.form["estado"]
         titulo = request.form.get("title")
@@ -78,6 +80,7 @@ def guardar(media_id):
     )
 
 @media.route("/actualizar/<string:media_id>", methods=["GET", "POST"])
+@login_required
 def actualizar(media_id):
     media = cache.get(media_id)
 
@@ -114,6 +117,7 @@ def actualizar(media_id):
 
 
 @media.route("/eliminar/<string:media_id>", methods=["GET", "POST"])
+@login_required
 def eliminar(media_id):
     conn = conectar()
     if conn: 

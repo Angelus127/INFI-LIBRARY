@@ -9,6 +9,7 @@
     <title>{% block title %}Infinite Libary{% endblock %}</title>
 </head>
 <body>
+    {% if session.get("user_id") %}
     <header>
         <nav>
             <ul>
@@ -21,9 +22,13 @@
                 </a><a href="#">
                     <li class="nav-element">OPCIONES</li>
                 </a>
+                <form action="{{ url_for('auth.logout')}}">
+                    <button class="btn-logout">Salir</button>
+                </form>
             </ul>
         </nav>
     </header>
+    {% endif %}
     <main>
         {% block content %}{% endblock %}
     </main>

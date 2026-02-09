@@ -35,7 +35,7 @@ def formatear_media_anilist(item):
         "titulo": title,
         "portada": item.get("coverImage", {}).get("large"),
         "descripcion": item.get("description", ""),
-        "puntuacion_media": item.get("averageScore"),
+        "puntuacion": item.get("averageScore"),
         "generos": traducir_generos(item.get("genres", [])),
         "tipo": kind,
         "anio": item.get("seasonYear"),
