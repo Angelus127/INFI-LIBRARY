@@ -23,15 +23,37 @@
 </div>
 
 <div id="details_user">
-    {% if media.estado_usuario %} <h4> {{ media.estado_usuario }} </h4> {% endif %}
-    {% if media.puntaje %} <h3> {{ media.puntaje }} </h3> {% endif %}
-    {% if media.opinion %} <p> {{ media.opinion }} </p> {% endif %}
+    {% if media.estado_usuario %} <h4 id="user-status"> {{ media.estado_usuario }} </h4> {% endif %}
+    {% if media.puntaje %} <h3 id="user-score"> {{ media.puntaje }} </h3> {% endif %}
+    {% if media.opinion %} <p id="user-review"> {{ media.opinion }} </p> {% endif %}
 </div>
 
 <div id="edit">
     <form action="{{ url_for('media.eliminar', media_id=media.id) }}" method="post" onsubmit="return confirm('¿Seguro que deseas borrar este elemento?');">
         <button type="submit" class="btn-borrar">🗑️ Borrar</button>
     </form>
+    <button id="edit-btn">Editar</button>
 </div>
 
+<div id="modal" style="display:none;">
+    <select id="edit-status">
+        <option value="">Ninguno</option>
+        <option value="en_progreso"> En progreso </option>
+        <option value="pendiente"> Pendiente </option>
+        <option value="finalizado"> Completado </option>
+        <option value="planeado"> Planeado </option>
+        <option value="abandonado"> Abandonado </option>
+    </select>
+
+    <input type="number" min="5.0" max="9.9" step="0.1" id="edit-score" value="5.0" placeholder="Puntuaje">
+
+    <textarea id="edit-review" placeholder="Opinion"></textarea>
+
+    <button id="save-btn">Guardar</button>
+    <button id="close-btn">Cerrar</button>
+</div>
+
+<div id="media-container" data-id="{{ media.id }}"></div>
+
+<script src="{{ url_for('static', filename='js/update.js') }}"></script>
 {% endblock %}

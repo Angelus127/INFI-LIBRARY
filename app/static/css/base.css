@@ -412,7 +412,7 @@ footer {
 }
 
 .form-library button {
-    background: #ffffff; /* Botón blanco para contrastar con el rojo de búsqueda global */
+    background: #e50914; /* Botón blanco para contrastar con el rojo de búsqueda global */
     color: #000;
     border: none;
     padding: 0.8rem 2rem;
@@ -643,7 +643,7 @@ footer {
     font-weight: 700;
 }
 
-.login-error {
+.login-error, .insert-error {
     background: rgba(229, 9, 20, 0.15);
     color: #ff4d4d;
     padding: 1rem;
@@ -727,6 +727,11 @@ footer {
 
 .btn-logout {
     background-color: #b20710;
+}
+
+.insert-error {
+	background: #e50914;
+	color: white;
 }
 
 

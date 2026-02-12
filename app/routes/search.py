@@ -9,6 +9,7 @@ search_bp = Blueprint("search", __name__, template_folder='templates')
 def buscar():
     resultados = []
     tipo = request.args.get("tipo", "LIBRO")
+    error=None
 
     if request.method == "POST":
         titulo = request.form.get("titulo", "").strip()
@@ -17,4 +18,4 @@ def buscar():
         if titulo:
             resultados = search(titulo, tipo)
 
-    return render_template("buscar.html", resultados=resultados, tipo=tipo)
+    return render_template("buscar.html", resultados=resultados, tipo=tipo, error=error)

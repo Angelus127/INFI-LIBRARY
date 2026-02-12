@@ -16,6 +16,7 @@ def guardar(media_id):
         return "Elemento no encontrado en cache"
     
     tipo = media.get("type", "").lower()
+    id = media.get("id_api")
         
     if request.method == "POST":
         conn = conectar()
@@ -52,7 +53,8 @@ def guardar(media_id):
         existente = cur.fetchone()
 
         if existente:
-            multimedia_id = existente[0]
+            error = "Este contenido ya fue agregado"
+            return redirect(url_for("search.buscar", tipo=tipo.upper(), e=error))
         else:
             cur.execute(
                 "INSERT INTO multimedia (tipo, datos) VALUES (%s, %s) RETURNING id",
@@ -60,61 +62,69 @@ def guardar(media_id):
             )
             multimedia_id = cur.fetchone()[0]
 
-        cur.execute("""
-            INSERT INTO usuario_multimedia 
-            (usuario_id, multimedia_id, puntuacion, estado, opinion)
-            VALUES (%s, %s, %s, %s, %s);
-            """,
-            (usuario_id, multimedia_id, puntuacion, estado, reseña)
-        )
+            cur.execute("""
+                INSERT INTO usuario_multimedia 
+                (usuario_id, multimedia_id, puntuacion, estado, opinion)
+                VALUES (%s, %s, %s, %s, %s);
+                """,
+                (usuario_id, multimedia_id, puntuacion, estado, reseña)
+            )
 
         conn.commit()
-
         return redirect(url_for("search.buscar", tipo=tipo.upper()))
 
     return render_template(
         "agregar.html", 
         media=media, 
         tipo=tipo,
-         generos=list(display_genre())
+        generos=list(display_genre())
     )
 
-@media.route("/actualizar/<string:media_id>", methods=["GET", "POST"])
+@media.route("/actualizar/<string:media_id>", methods=["PATCH"])
 @login_required
 def actualizar(media_id):
-    media = cache.get(media_id)
+    data = request.json
 
-    if not media:
-        return "Elemento no encontrado en cache"
+    fields = []
+    values = []
+
+    if "estado" in data:
+        fields.append("estado = %s")
+        values.append(data["estado"])
+    if "puntaje" in data:
+        fields.append("puntuacion = %s")
+        values.append(data["puntaje"])
+    if "opinion" in data: 
+        fields.append("opinion = %s")
+        values.append(data["puntaje"])
+
+    if not fields:
+        e = "Nada que actualizar"
+        return render_template("error.html", e=e)
     
-    if request.method == "POST":
-        conn = conectar()
-        cur = dict_cursor(conn)
+    query = f"UPDATE usuario_multimedia SET {', '.join(fields)} WHERE id = %s"
+    values.append(media_id)
 
-        multimedia_id = request.form["id"]
-        titulo = request.form["title"]
+    conn = conectar()
+    cur = dict_cursor(conn)
 
-        if titulo:
-            media["titulo"] = titulo
-        
-        generos = request.form.getlist("generos")
-        if generos:
-            media["generos"] = generos
-        
-        cur.execute(
-            "UPDATE multimedia SET datos = %s WHERE id = %s", 
-            (json.dumps(media), id)
-        )
-        conn.commit()
+    cur.execute(query, values)
+    conn.commit()
 
-        return redirect(url_for("search.buscar"))
-
-    return render_template(
-        "actualizar.html", 
-        media=media, 
-        generos=display_genre()
+    cur.execute(
+        "SELECT estado, puntuacion, opinion FROM usuario_multimedia WHERE id = %s",
+        (media_id,)
     )
+    update = cur.fetchone()
 
+    cur.close()
+    conn.close()
+
+    return jsonify({
+        "estado": update[0],
+        "puntaje": update[1],
+        "opinion": update[2]
+    })
 
 @media.route("/eliminar/<string:media_id>", methods=["GET", "POST"])
 @login_required
