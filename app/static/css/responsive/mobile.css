@@ -1,0 +1,14 @@
+@media (max-width: 768px) {
+
+    #details_media {
+
+        grid-template-columns: 1fr;
+
+        grid-template-areas:
+
+        "image"
+        "info"
+        "description";
+    }
+
+}

@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const container = document.getElementById("media-container");
 
     editBtn.addEventListener("click", () => {
-        modal.style.display = "block";
+        modal.style.display = "flex";
     });
 
     closeBtn.addEventListener("click", () => {
@@ -35,12 +35,14 @@ document.addEventListener("DOMContentLoaded", () => {
             const response = await fetch(`/actualizar/${itemId}`, {
                 method: "PATCH",
                 headers: {
-                    "Content=Type": "application/json"
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify(payload)
             });
             
             const data = await response.json();
+			
+			console.log(data.opinion)
 
             if (data.estado !== undefined) {
                 document.getElementById("user-status").innerText = data.estado;

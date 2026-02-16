@@ -1,0 +1,121 @@
+/* Boton de busqueda */
+.btn_search {
+    background: #e50914;
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    }
+    
+.btn_search:hover {
+    background: #b20710;
+}
+
+/* Boton de edicion */
+#edit-btn {
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    margin-right: 10px;
+    padding: 0.6rem 1.5rem;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 10px;
+}
+    
+#edit-btn:hover {
+    background: #ffffff;
+    color: #000000;
+}
+
+/* Boton de borrado */
+.btn-borrar {
+    background: transparent;
+    color: #ff4d4d;
+    border: 1px solid #ff4d4d;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+    
+.btn-borrar:hover {
+    background: #ff4d4d;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(255, 77, 77, 0.3);
+}
+
+/* Boton de Inicio de sesion */
+
+#btn_user_form {
+    grid-column: 1 / -1;
+    background: #e50914;
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+    
+#btn_user_form:hover {
+    background: #ff0a16;
+}
+
+/* Boton de Cierre de sesion */
+.btn-logout {
+    background-color: #0d0d0d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+    
+.btn-logout {
+    background-color: #b20710;
+}
+
+/* Boton de Guardar */
+#save-btn {
+    background: #e50914;
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+    
+#save-btn:hover {
+    background: #ff0a16;
+}
+
+/* Boton de Cerrar */
+#close-btn {
+    background: transparent;
+    color: #b3b3b3;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-decoration: underline;
+}
+    
+#close-btn:hover {
+    color: #ffffff;
+}

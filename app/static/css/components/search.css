@@ -1,0 +1,93 @@
+/* --- Sección de Búsqueda --- */
+#search {
+    margin: 2rem 0 3rem 0;
+    display: flex;
+    justify-content: center;
+}
+    
+.form_search {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 800px;
+    background: #1e1e1e;
+    padding: 8px;
+    border-radius: 50px;
+    border: 1px solid #333;
+}
+    
+#search_bar {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+}
+    
+#search_type {
+    background: #2a2a2a;
+    color: white;
+    border: none;
+    padding: 0 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    outline: none;
+}
+
+
+/*  Barra de busqueda de la biblioteca*/
+.form-library {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 3rem;
+    background: #1a1a1a;
+    padding: 1.5rem;
+    border-radius: 10px;
+    align-items: center;
+    border: 1px solid #333;
+}
+    
+#search-bar-library {
+    flex: 2;
+    background: #252525;
+    border: 1px solid #444;
+    padding: 0.8rem 1rem;
+    border-radius: 5px;
+    color: white;
+    outline: none;
+}
+
+.type {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: #666;
+    text-align: right;
+    font-style: italic;
+}
+    
+#type-bar-library {
+    flex: 1;
+    background: #252525;
+    border: 1px solid #444;
+    padding: 0.8rem;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+ }
+    
+.form-library button {
+    background: #e50914;
+    color: #000;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+    
+.form-library button:hover {
+    background: #cccccc;
+}

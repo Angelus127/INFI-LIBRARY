@@ -1,0 +1,82 @@
+#user_input {
+    background: #1a1a1a;
+    padding: 2rem;
+    border-radius: 15px;
+    border: 1px solid #333;
+}
+
+
+#user_form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.row-top {
+    display: grid;
+    grid-template-columns: 1fr 120px 180px;
+    gap: 15px;
+}
+
+#user_form input,
+#user_form select,
+#user_form textarea {
+    background: #252525;
+    border: 1px solid #444;
+    padding: 0.8rem;
+    border-radius: 5px;
+    color: white;
+}
+
+#user_form input:focus,
+#user_form select:focus,
+#user_form textarea:focus {
+    border-color: #e50914;
+}
+
+#review {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.genres-dropdown summary {
+    cursor: pointer;
+    padding: 10px;
+    background: #252525;
+    border-radius: 5px;
+
+}
+
+.genre-container {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.checkbox-btn input {
+    display: none;
+}
+
+
+.checkbox-btn span {
+    display: inline-block;
+    padding: 8px 15px;
+    background: #333;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.checkbox-btn input:checked + span {
+    background: #e50914;
+}
+
+#btn_user_form {
+    background: #e50914;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}

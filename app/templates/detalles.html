@@ -3,24 +3,60 @@
 {% block content %}
 
 <div id="details_media">
-    {% if media.portada %} <img src="{{ media.portada }}" alt="{{ media.titulo }}"> {% endif %}
-    {% if media.titulo %} <h2>{{ media.titulo }}</h2> {% endif %}
-    {% if media.autores %}
-        {% for a in media.autores %}
-            <h3> {{ a }}</h3>
-        {% endfor %}
+    {% if media.portada %}
+    <div class="media-image">
+        <img src="{{ media.portada }}" alt="{{ media.titulo }}">
+    </div>
     {% endif %}
 
-    {% if media.rating %} <p class="rating"> {{ media.rating }} </p> {% endif %}
-    {% if media.anio %} <p class="year"> {{ media.anio }} </p> {% endif %}
-    {% if media.descripcion or media.resumen %} <p class="resume" >{{ media.descripcion or media.resumen }}</p> {% endif %}
-    {% if media.generos %}
-        {% for g in media.generos[:3] %}
-            <p class="genre"> {{ g }} </p>
-        {% endfor %}
+    <div class="media-info">
+        {% if media.titulo %}
+        <h2>{{ media.titulo }}</h2>
+        {% endif %}
+
+
+        <div class="row-inline">
+            {% if media.autores %}
+                {% for a in media.autores %}
+                <span>{{ a }}</span>
+                {% endfor %}
+            {% endif %}
+
+            {% if media.anio %}
+            <span>{{ media.anio }}</span>
+            {% endif %}
+
+            {% if media.rating or media.puntuacion %}
+            <span class="rating">{{ media.rating or media.puntuacion }}</span>
+            {% endif %}
+        </div>
+
+        {% if media.generos %}
+        <div class="row-inline">
+            {% for g in media.generos[:3] %}
+            <span class="genre">{{ g }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="row-inline">
+            {% if media.paginas %}
+            <span>{{ media.paginas }} páginas</span>
+            {% endif %}
+
+            {% if media.tipo %}
+            <span>{{ media.tipo }}</span>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if media.descripcion or media.resumen %}
+    <div class="media-description">
+        {{ media.descripcion or media.resumen }}
+    </div>
     {% endif %}
-    {% if media.tipo %} <p> {{ media.tipo }} </p> {% endif %}
 </div>
+
 
 <div id="details_user">
     {% if media.estado_usuario %} <h4 id="user-status"> {{ media.estado_usuario }} </h4> {% endif %}
@@ -29,28 +65,30 @@
 </div>
 
 <div id="edit">
+    <button id="edit-btn">Editar</button>
     <form action="{{ url_for('media.eliminar', media_id=media.id) }}" method="post" onsubmit="return confirm('¿Seguro que deseas borrar este elemento?');">
         <button type="submit" class="btn-borrar">🗑️ Borrar</button>
     </form>
-    <button id="edit-btn">Editar</button>
 </div>
 
-<div id="modal" style="display:none;">
-    <select id="edit-status">
-        <option value="">Ninguno</option>
-        <option value="en_progreso"> En progreso </option>
-        <option value="pendiente"> Pendiente </option>
-        <option value="finalizado"> Completado </option>
-        <option value="planeado"> Planeado </option>
-        <option value="abandonado"> Abandonado </option>
-    </select>
+<div id="modal">
+	<div id="modalContent">
+		<select id="edit-status">
+			<option value="">Ninguno</option>
+			<option value="en_progreso"> En progreso </option>
+			<option value="pendiente"> Pendiente </option>
+			<option value="finalizado"> Completado </option>
+			<option value="planeado"> Planeado </option>
+			<option value="abandonado"> Abandonado </option>
+		</select>
 
-    <input type="number" min="5.0" max="9.9" step="0.1" id="edit-score" value="5.0" placeholder="Puntuaje">
+		<input type="number" min="5.0" max="9.9" step="0.1" id="edit-score" value="5.0" placeholder="Puntuaje">
 
-    <textarea id="edit-review" placeholder="Opinion"></textarea>
+		<textarea id="edit-review" placeholder="Opinion"></textarea>
 
-    <button id="save-btn">Guardar</button>
-    <button id="close-btn">Cerrar</button>
+		<button id="save-btn">Guardar</button>
+		<button id="close-btn">Cerrar</button>
+	</div>
 </div>
 
 <div id="media-container" data-id="{{ media.id }}"></div>

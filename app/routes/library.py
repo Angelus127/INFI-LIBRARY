@@ -64,6 +64,9 @@ def detalles(id):
         info = cur.fetchone()
     except Exception as e:
         return render_template('error.html', e=e)
+        
+    if not info[7]:
+        info[7] = "-"
     
     media = {
         "id": info[0],

@@ -3,47 +3,98 @@
 {% block content %}
 
 <div id="details_media">
-    {% if media.portada %} <img src="{{ media.portada }}" alt="{{ media.titulo }}"> {% endif %}
-    {% if media.titulo %} <h2>{{ media.titulo }}</h2> {% endif %}
-    {% if media.autores %}
-        {% for a in media.autores %}
-            <h3> {{ a }}</h3>
-        {% endfor %}
+    {% if media.portada %}
+    <div class="media-image">
+        <img src="{{ media.portada }}" alt="{{ media.titulo }}">
+    </div>
     {% endif %}
-    {% if media.anio %} <p class="year"> {{ media.anio }} </p> {% endif %}
-    {% if media.descripcion or media.resumen %} <p class="resume" >{{ media.descripcion or media.resumen }}</p> {% endif %}
-    {% if media.generos %}
-        {% for g in media.generos[:3] %}
-            <p class="genre"> {{ g }} </p>
-        {% endfor %}
-    {% endif %}
-    {% if media.estado %} <p> {{ media.estado }} </p> {% endif %}
-    {% if media.formato %} <p> {{ media.formato }} </p> {% endif %}
-    {% if media.tipo %} <p> {{ media.tipo }} </p> {% endif %}
-    {% if media.paginas %} <p> {{ media.paginas }} </p> {% endif %}
-    {% if media.temporada %} <p> {{ media.temporada }} </p> {% endif %}
+
+    <div class="media-info">
+        
+        {% if media.titulo %}
+        <h2>{{ media.titulo }}</h2>
+        {% endif %}
+
+        <div class="row-inline">
+            {% if media.autores %}
+                {% for a in media.autores %}
+                <span class="author">{{ a }}</span>
+                {% endfor %}
+            {% endif %}
+
+            {% if media.anio %}
+            <span class="year">{{ media.anio }}</span>
+            {% endif %}
+
+        </div>
+
+        {% if media.generos %}
+        <div class="row-inline">
+            {% for g in media.generos[:3] %}
+            <span class="genre">{{ g }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="row-inline">
+            {% if media.estado %}
+            <span>{{ media.estado }}</span>
+            {% endif %}
+
+            {% if media.formato %}
+            <span>{{ media.formato }}</span>
+            {% endif %}
+
+            {% if media.tipo %}
+            <span>{{ media.tipo }}</span>
+            {% endif %}
+
+            {% if media.paginas %}
+            <span>{{ media.paginas }}</span>
+            {% endif %}
+
+            {% if media.temporada %}
+            <span>{{ media.temporada }}</span>
+            {% endif %}
+
+        </div>
+
+        {% if media.descripcion or media.resumen %}
+        <div class="media-description">
+            {{ media.descripcion or media.resumen }}
+        </div>
+        {% endif %}
+    </div>
 </div>
 
 <div id="user_input">
     <form id="user_form" method="post">
-        <input type="number" min="5.0" max="9.9" step="0.1" name="puntuacion" id="score" value="5.0">
-        <select name="estado" id="status">
-            <option value="en_progreso"> En progreso </option>
-            <option value="pendiente"> Pendiente </option>
-            <option value="finalizado"> Completado </option>
-            <option value="planeado"> Planeado </option>
-            <option value="abandonado"> Abandonado </option>
-        </select>
-        <input type="text" name="reseña" placeholder="Ingrese su Opinion" id="review">
-        <input type="text" placeholder="Ingrese el titulo" name="title" id="title">
-        {% for genre in generos %}
-            <label class="checkbox-btn">
-                <input type="checkbox" name="generos" id="genres" value="{{genre}}">
-                <span>{{genre}}</span>
-            </label>
-        {% endfor %}
+        <div class="row-top">
+            <input type="text" placeholder="Ingrese el titulo" name="title" id="title">
+            <input type="number" min="5.0" max="9.9" step="0.1" name="puntuacion" id="score" value="5.0">
+            <select name="estado" id="status">
+                <option value="en_progreso">En progreso</option>
+                <option value="pendiente">Pendiente</option>
+                <option value="finalizado">Completado</option>
+                <option value="planeado">Planeado</option>
+                <option value="abandonado">Abandonado</option>
+            </select>
+        </div>
+        <textarea name="reseña" placeholder="Ingrese su Opinion" id="review"></textarea>
+        <details class="genres-dropdown">
+            <summary>Seleccionar géneros</summary>
+            <div class="genre-container">
+                {% for genre in generos %}
+                <label class="checkbox-btn">
+                    <input type="checkbox" name="generos" value="{{genre}}">
+                    <span>{{genre}}</span>
+                </label>
+                {% endfor %}
+            </div>
+        </details>
         <button type="submit" id="btn_user_form">Agregar</button>
     </form>
-</div>
+    </div>
+    
 
 {% endblock %}

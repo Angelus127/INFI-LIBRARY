@@ -1,0 +1,20 @@
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 0.5rem;
+}
+    
+.tag {
+    font-size: 0.7rem;
+    background: #333;
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: #ccc;
+}
+    
+.year {
+    font-size: 0.85rem;
+    color: #e50914; 
+    font-weight: bold;
+}

@@ -1,4 +1,4 @@
-from flask import Blueprint, session, request, render_template, redirect, url_for
+from flask import Blueprint, session, request, render_template, redirect, url_for, jsonify
 from app.cache.cache import cache
 from app.services.genres_service import display_genre
 from app.utils.auth import login_required
@@ -96,13 +96,13 @@ def actualizar(media_id):
         values.append(data["puntaje"])
     if "opinion" in data: 
         fields.append("opinion = %s")
-        values.append(data["puntaje"])
+        values.append(data["opinion"])
 
     if not fields:
         e = "Nada que actualizar"
         return render_template("error.html", e=e)
     
-    query = f"UPDATE usuario_multimedia SET {', '.join(fields)} WHERE id = %s"
+    query = f"UPDATE usuario_multimedia SET {', '.join(fields)} WHERE multimedia_id = %s"
     values.append(media_id)
 
     conn = conectar()
@@ -112,13 +112,10 @@ def actualizar(media_id):
     conn.commit()
 
     cur.execute(
-        "SELECT estado, puntuacion, opinion FROM usuario_multimedia WHERE id = %s",
+        "SELECT estado, puntuacion, opinion FROM usuario_multimedia WHERE multimedia_id = %s",
         (media_id,)
     )
     update = cur.fetchone()
-
-    cur.close()
-    conn.close()
 
     return jsonify({
         "estado": update[0],

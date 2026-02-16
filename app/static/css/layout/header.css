@@ -1,0 +1,48 @@
+header {
+      background-color: #1a1a1a;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      margin-bottom: 2rem;
+   }
+
+nav ul {
+   list-style: none;
+   display: flex;
+   gap: 2rem;
+   align-items: center;
+}
+      
+nav a {
+   text-decoration: none;
+   color: #b3b3b3; /* Gris suave para enlaces inactivos */
+   font-weight: 600;
+   font-size: 0.9rem;
+   transition: color 0.3s ease;
+}
+      
+.nav-element {
+   padding: 0.5rem 0;
+   position: relative;
+}
+      
+nav a:hover {
+   color: #ffffff;
+}
+      
+.nav-element::after {
+   content: '';
+   position: absolute;
+   width: 0;
+   height: 2px;
+   bottom: 0;
+   left: 0;
+   background-color: #e50914;
+   transition: width 0.3s ease;
+}
+
+nav a:hover .nav-element::after {
+   width: 100%;
+}  
