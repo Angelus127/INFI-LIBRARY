@@ -39,6 +39,14 @@
         </div>
         {% endif %}
 
+        {% if media.plataforma %}
+        <div id="row-inline">
+            {% for p in media.plataforma[:3] %}
+            <span class="genre">{{ p }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+
         <div class="row-inline">
             {% if media.paginas %}
             <span>{{ media.paginas }} páginas</span>

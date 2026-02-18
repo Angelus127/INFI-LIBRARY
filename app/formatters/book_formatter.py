@@ -22,7 +22,7 @@ def formatear_libro(data):
         "paginas": data.get("pages"),
         "descripcion": data.get("description"),
         "generos": traducir_generos(lista_generos),
-        "type": "BOOK"
+        "type": "LIBRO"
     }
     
     return json_simplificado

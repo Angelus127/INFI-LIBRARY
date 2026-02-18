@@ -57,6 +57,12 @@
             <span>{{ media.temporada }}</span>
             {% endif %}
 
+            {% if media.plataforma %}
+                {% for p in media.plataforma[:3] %}
+                <span class="genre">{{ p }}</span>
+                {% endfor %}
+            {% endif %}
+
         </div>
 
         {% if media.descripcion or media.resumen %}
