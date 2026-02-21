@@ -1,4 +1,5 @@
 from app.services.genres_service import traducir_generos
+from app.utils.utils import round_num
 
 def formatear_libro(data):
     autores = [
@@ -26,9 +27,3 @@ def formatear_libro(data):
     }
     
     return json_simplificado
-
-def round_num(value, decim=2):
-    try:
-        return str(round(float(value), decim))
-    except (TypeError, ValueError):
-        return None

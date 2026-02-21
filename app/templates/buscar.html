@@ -6,9 +6,12 @@
     <form class="form_search" method="POST">
         <input type="text" name="titulo" placeholder="Escribe el titulo" id="search_bar" required>
         <select name="tipo" id="search_type">
-            <option value="LIBRO" {% if tipo == "LIBRO" %}selected{% endif %}>Libros</option>
             <option value="ANIME" {% if tipo == "ANIME" %}selected{% endif %}>Animes</option>
+            <option value="DORAMA" {% if tipo == "DORAMA" %}selected{% endif %}>Doramas</option>
+            <option value="LIBRO" {% if tipo == "LIBRO" %}selected{% endif %}>Libros</option>
             <option value="MANGA" {% if tipo == "MANGA" %}selected{% endif %}>Mangas</option>
+            <option value="PELICULA" {% if tipo == "PELICULA" %}selected{% endif %}>Peliculas</option>
+            <option value="SERIE" {% if tipo == "SERIE" %}selected{% endif %}>Series</option>
             <option value="VIDEOJUEGO" {% if tipo == "VIDEOJUEGO" %}selected{% endif %}>VideoJuegos</option>
         </select>
         <button class="btn_search" type="submit">Buscar</button>

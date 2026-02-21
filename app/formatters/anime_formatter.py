@@ -1,7 +1,6 @@
 from app.services.genres_service import traducir_generos
 
 def formatear_media_anilist(item):
-    """Limpia y estructura los datos de AniList."""
     kind = None
     titleAll = item.get("title", {})
     origin = item.get("countryOfOrigin")

@@ -1,4 +1,4 @@
-import requests, os, pprint
+import requests, os
 
 class GamesApiError(Exception):
     pass

@@ -60,7 +60,7 @@ TRADUCCION_GENEROS = {
     "Fiction": "Ficción",
     "Non-Fiction": "No ficción",
     "Juvenile Fiction": "Ficción juvenil",
-    "Young Adult": "Juvenil (YA)",
+    "Young Adult": "Juvenil",
     "Young Adult Fiction": "Ficción juvenil adulta",
     "Literary Criticism": "Crítica literaria",
     "Biography": "Biografía",
@@ -94,8 +94,42 @@ TRADUCCION_GENEROS = {
     "Health & Fitness": "Salud y Bienestar",
     "Travel": "Viajes"
 }
+
+GENEROS_TMDB = {
+    12: "Aventura",
+    14: "Fantasía",
+    16: "Animación",
+    18: "Drama",
+    27: "Terror",
+    28: "Acción",
+    35: "Comedia",
+    36: "Historia",
+    37: "Western",
+    53: "Suspense",
+    80: "Crimen",
+    99: "Documental",
+    878: "Ciencia ficción",
+    9648: "Misterio",
+    10402: "Música",
+    10749: "Romance",
+    10751: "Familia",
+    10752: "Bélica",
+    10759: "Acción y Aventura",
+    10762: "Infantil",
+    10763: "Noticias",
+    10764: "Reality",
+    10765: "Ciencia ficción y Fantasía",
+    10766: "Telenovela",
+    10767: "Talk Show",
+    10768: "Guerra y Política",
+    10770: "Película de TV"
+}
+
 def display_genre():  
     return {g for g in TRADUCCION_GENEROS.values()}
 
 def traducir_generos(lista):
     return [TRADUCCION_GENEROS.get(g, g) for g in lista]
+
+def traducir_ids(ids):
+    return [GENEROS_TMDB.get(i, "desconocido") for i in ids]
