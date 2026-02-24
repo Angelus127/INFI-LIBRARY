@@ -14,10 +14,15 @@
     padding: 8px;
     border-radius: 50px;
     border: 1px solid #333;
+    flex-wrap: wrap;
 }
     
 #search_bar {
+    flex: 3;
     flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0;
+    min-height: 42px;
     background: transparent;
     border: none;
     padding: 0.8rem 1.5rem;
@@ -34,6 +39,10 @@
     border-radius: 20px;
     cursor: pointer;
     outline: none;
+    min-width: 120px;
+    min-height: 42px;
+    flex: 1;
+
 }
 
 

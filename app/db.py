@@ -1,9 +1,9 @@
 import psycopg2, psycopg2.extras
-from .config import Config
+from app.config import Config
 
 def conectar():
     try:
-        return psycopg2.connect(**Config.DB_CONFIG)
+        return psycopg2.connect(Config.DATABASE_URL)
     except Exception as e:
         print("Error al conectar a la base de datos: ", e)
         return None 

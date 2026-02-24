@@ -11,7 +11,10 @@
     {% if session.get("user_id") %}
     <header>
         <nav>
-            <ul>
+            <button class="menu-toggle">
+                ☰
+            </button>
+            <ul class="nav-menu">
                 <a href="{{ url_for('home.index') }}">
                     <li class="nav-element">INICIO</li>
                 </a><a href="{{ url_for('search.buscar') }}">
@@ -34,5 +37,10 @@
     <footer>
         
     </footer>
+    <script>
+        document.querySelector(".menu-toggle").addEventListener("click", function(){
+            document.querySelector(".nav-menu").classList.toggle("active")
+        })
+    </script>
 </body>
 </html>
