@@ -32,7 +32,7 @@ def search_tmdb(title, type):
         
 
 def get_doramas(data):
-    drama = {'KR', 'JP', 'CH', 'TH'}
+    drama = {'KR', 'JP', 'CN', 'TH'}
     genero = 16
     doramas = [
         serie for serie in data
