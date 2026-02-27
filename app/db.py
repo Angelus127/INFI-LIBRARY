@@ -3,7 +3,7 @@ from app.config import Config
 
 def conectar():
     try:
-        return psycopg2.connect(Config.DATABASE_URL, sslmode="require")
+        return psycopg2.connect(Config.DATABASE_URL)
     except Exception as e:
         print("Error al conectar a la base de datos: ", e)
         return None 

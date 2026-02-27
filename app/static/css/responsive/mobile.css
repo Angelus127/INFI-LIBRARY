@@ -3,11 +3,6 @@
         padding: 2rem;
     }
 
-    #catalog {
-        grid-template-columns: 
-        repeat(auto-fill, minmax(200px, 1fr));
-    }
-
     #title-main {
         font-size: 2.5rem;
     }
@@ -16,6 +11,11 @@
 @media (max-width: 768px) {
     header {
         padding: 1rem;
+    }
+
+    #library, #catalog {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 2fr));
     }
 
     nav ul {
@@ -89,5 +89,9 @@
     #search_type,
     .btn_search {
         width: 100%;
+    }
+
+    .row-top {
+        grid-template-columns: 1fr;
     }
 }

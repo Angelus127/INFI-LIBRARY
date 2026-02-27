@@ -18,9 +18,7 @@
 }
     
 #search_bar {
-    flex: 3;
-    flex-grow: 1;
-    flex-shrink: 1;
+    flex: 4;
     min-width: 0;
     min-height: 42px;
     background: transparent;
@@ -32,6 +30,7 @@
 }
     
 #search_type {
+    flex: 1;
     background: #2a2a2a;
     color: white;
     border: none;
@@ -41,10 +40,7 @@
     outline: none;
     min-width: 120px;
     min-height: 42px;
-    flex: 1;
-
 }
-
 
 /*  Barra de busqueda de la biblioteca*/
 .form-library {
@@ -88,7 +84,7 @@
     
 .form-library button {
     background: #e50914;
-    color: #000;
+    color: white;
     border: none;
     padding: 0.8rem 2rem;
     border-radius: 5px;
