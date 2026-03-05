@@ -5,7 +5,8 @@
 
 <form class="form-library" method="POST">
     <input type="text" name="title" placeholder="Busqueda por titulo" id="search-bar-library">
-    <select name="type" id="type-bar-library">
+    <select name="type" class="bar-library">
+        <option value="todos"> Todos </option>
         <option value="anime"> Anime </option>
         <option value="dorama"> Dorama </option>
         <option value="libro"> Libro </option>
@@ -13,6 +14,12 @@
         <option value="pelicula"> Pelicula </option>
         <option value="serie"> Serie </option>
         <option value="videojuego"> Videojuego </option>
+    </select>
+    <select name="order" class="bar-library">
+        <option value="id" {% if orden == 'id' %}selected{% endif %}>Recientes 🆕</option>
+        <option value="antiguos" {% if orden == 'antiguos' %}selected{% endif %}>Antiguos</option>
+        <option value="popular" {% if orden == 'popular' %}selected{% endif %}>Puntuacion ⬆️ </option>
+        <option value="unpopular" {% if orden == 'unpopular' %}selected{% endif %}>Puntuacion ⬇️</option>
     </select>
     <button type="submit">Buscar</button>     
 </form>
