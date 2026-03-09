@@ -21,6 +21,7 @@ def biblioteca():
             titulo = request.form["title"]
             tipo = request.form["type"]
             orden = request.form["order"]
+            estado = request.form["status"]
 
             sql = "SELECT * from multimediaView"
             condiciones = []
@@ -35,22 +36,33 @@ def biblioteca():
                     parametros.append(tipo)
                 else:
                     condiciones.append("1=1")
+            
+            if estado:
+                condiciones.append("estado = %s")
+                parametros.append(estado)
 
             if condiciones:
-                sql += " WHERE " + " AND ".join(condiciones)
+                sql += " WHERE " + " AND ".join(condiciones) 
+                
             
             orden_sql = {
-                'antiguos': "ORDER BY id ASC",
-                'unpopular': "ORDER BY puntuacion ASC",
-                'popular': "ORDER BY puntuacion DESC"
-            }.get(orden, "ORDER BY id DESC")
+                'antiguos': " ORDER BY id ASC",
+                'unpopular': " ORDER BY puntuacion ASC",
+                'popular': " ORDER BY puntuacion DESC"
+            }.get(orden, " ORDER BY id DESC")
 
             sql += orden_sql
 
             cur.execute(sql, parametros)
             info = cur.fetchall()
             library = format_json(info)
-            return render_template("biblioteca.html", library=library, conteos=conteos, orden=orden)
+            return render_template(
+                "biblioteca.html",
+                library=library, 
+                conteos=conteos, 
+                orden=orden,
+                tipo=tipo,
+                estado=estado)
         except Exception as e:
             print("No se encontro registros: ", e)
             return render_template("error.html", e=e)

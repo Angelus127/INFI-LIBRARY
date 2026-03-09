@@ -64,18 +64,12 @@
     }
 
     .form-library {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
+        gap: 8px;
     }
 
-    #search-bar-library {
-        flex: 1;
-        width: 100%;
-    }
-
-    .bar-library,
-    .form-library button {
+    .btn-library, .search-library,
+    .status-library, .order-library,
+    .type-library {
         width: 100%;
     }
 
