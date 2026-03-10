@@ -3,7 +3,7 @@
 {% block content %}
 
 
-<form class="form-library" method="POST">
+<form class="form-library" method="GET">
     <input type="text" name="title" placeholder="Busqueda por titulo" class="search-library">
     <select name="type" class="type-library">
         <option value="todos" {% if tipo == 'todos' %}selected{% endif %}> Todos </option>
@@ -49,6 +49,40 @@
                 </div>
             </a>
     {% endfor %}
+</div>
+
+<div class="pagination">
+    {% if page > 1 %}
+    <a  class="page-btn"
+        href="/biblioteca?page={{page-1}}{% if titulo %}&title={{titulo}}{% endif %}{%if tipo%}&type={{tipo}}{% endif %}{% if estado %}&status={{estado}}{% endif %}{% if orden %}&order={{orden}}{% endif %}"> ⬅️ 
+    </a>
+    {% endif %}
+
+    {% if start_page > 1 %}
+    <a  class="page-btn"
+        href="/biblioteca?page=1
+        {% if titulo %}&title={{titulo}}{% endif %}{%if tipo%}&type={{tipo}}{% endif %}{% if estado %}&status={{estado}}{% endif %}{% if orden %}&order={{orden}}{% endif %}"> 1 
+    </a>
+        <span class="dots">...</span>
+    {% endif %}
+
+    {% for p in range(start_page, end_page + 1) %}
+    <a  class="page-btn {% if p == page %}active{% endif %}"
+        href="/biblioteca?page={{p}}{% if titulo %}&title={{titulo}}{% endif %}{%if tipo%}&type={{tipo}}{% endif %}{% if estado %}&status={{estado}}{% endif %}{% if orden %}&order={{orden}}{% endif %}"> {{ p }} </a>
+    {% endfor %}
+
+    {% if end_page < total_pages %}
+    <span class="dots">...</span>
+    <a  class="page-btn"
+        href="/biblioteca?page={{total_pages}}{% if titulo %}&title={{titulo}}{% endif %}{%if tipo%}&type={{tipo}}{% endif %}{% if estado %}&status={{estado}}{% endif %}{% if orden %}&order={{orden}}{% endif %}"> {{ total_pages}} 
+    </a>
+    {% endif %}
+
+    {% if page < total_pages %}
+    <a  class="page-btn"
+        href="/biblioteca?page={{page+1}}{% if titulo %}&title={{titulo}}{% endif %}{%if tipo %}&type={{tipo}}{% endif %}{% if estado %}&status={{estado}}{% endif %}{% if orden %}&order={{orden}}{% endif %}"> ➡️ 
+    </a>
+    {% endif %}
 </div>
 
 {% endblock %}

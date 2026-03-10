@@ -3,6 +3,8 @@ from ..db import conectar, dict_cursor
 from app.formatters.json_formatter import format_json
 from ..services.count import contador
 from app.utils.auth import login_required
+from app.utils.utils import construccion_sql
+import math
 
 library = Blueprint("library", __name__, template_folder='templates')
 
@@ -16,65 +18,48 @@ def biblioteca():
 
     conteos = contador()
 
-    if request.method == 'POST':
-        try:
-            titulo = request.form["title"]
-            tipo = request.form["type"]
-            orden = request.form["order"]
-            estado = request.form["status"]
+    titulo = request.args.get("title")
+    tipo = request.args.get("type")
+    orden = request.args.get("order", "id")
+    estado = request.args.get("status")
+    page = request.args.get("page", 1, type=int)
+    limite = 20
+    window = 2
+    offset = (page - 1) * limite
 
-            sql = "SELECT * from multimediaView"
-            condiciones = []
-            parametros = []
-            if titulo:
-                condiciones.append("datos->>'titulo' ILIKE %s")
-                parametros.append(f"%{titulo}%")
+    try:
+        sql = "SELECT * FROM multimediaView"
+        query, parametros = construccion_sql(sql, False, titulo, tipo, estado, orden, limite, offset)
+        cur.execute(query, parametros)
+        info = cur.fetchall()
+        library = format_json(info)
 
-            if tipo:
-                if tipo != "todos":
-                    condiciones.append("tipo = %s")
-                    parametros.append(tipo)
-                else:
-                    condiciones.append("1=1")
-            
-            if estado:
-                condiciones.append("estado = %s")
-                parametros.append(estado)
+        query, parametros = construccion_sql(sql, True, titulo, tipo, estado)
+        query_count = query.replace("SELECT *", "SELECT COUNT(*)")
 
-            if condiciones:
-                sql += " WHERE " + " AND ".join(condiciones) 
-                
-            
-            orden_sql = {
-                'antiguos': " ORDER BY id ASC",
-                'unpopular': " ORDER BY puntuacion ASC",
-                'popular': " ORDER BY puntuacion DESC"
-            }.get(orden, " ORDER BY id DESC")
+        cur.execute(query_count, parametros)
+        total_items = cur.fetchone()[0]
+        total_pages = math.ceil(total_items / limite)
 
-            sql += orden_sql
+        start_page = max(1, page - window)
+        end_page = min(total_pages, page + window)
 
-            cur.execute(sql, parametros)
-            info = cur.fetchall()
-            library = format_json(info)
-            return render_template(
-                "biblioteca.html",
-                library=library, 
-                conteos=conteos, 
-                orden=orden,
-                tipo=tipo,
-                estado=estado)
-        except Exception as e:
-            print("No se encontro registros: ", e)
-            return render_template("error.html", e=e)
-    else:
-        try:
-            cur.execute("SELECT * FROM multimediaView ORDER BY id DESC")
-            info = cur.fetchall()
-            library = format_json(info)
-            return render_template("biblioteca.html", library=library, conteos=conteos)
-        except Exception as e:
-            print("No se encontro registros: ", e)
-            return render_template("error.html", e=e)
+        return render_template(
+            "biblioteca.html",
+            titulo=titulo,
+            library=library, 
+            conteos=conteos, 
+            orden=orden,
+            tipo=tipo,
+            estado=estado,
+            page=page,
+            total_pages=total_pages,
+            start_page=start_page,
+            end_page=end_page
+        )
+    except Exception as e:
+        print("No se encontro registros: ", e)
+        return render_template("error.html", e=e)
 
 @library.route("/biblioteca/<string:id>")
 @login_required

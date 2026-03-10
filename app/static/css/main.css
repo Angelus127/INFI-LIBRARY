@@ -14,6 +14,7 @@
 @import url(./components/counters.css);
 @import url(./components/tags.css);
 @import url(./components/menu.css);
+@import url(./components/pagination.css);
 
 @import url(./pages/catalog.css);
 @import url(./pages/details.css);

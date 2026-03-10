@@ -88,4 +88,17 @@
     .row-top {
         grid-template-columns: 1fr;
     }
+
+    .pagination {
+        justify-content: flex-start;
+    }
+
+    .pagination::-webkit-scrollbar {
+        display: none;
+    }
+
+    .page-btn {
+        padding: 6px 10px;
+        font-size: 13px;
+    }
 }

@@ -1,4 +1,5 @@
 from ..db import conectar, dict_cursor
+import math
 
 conn = conectar()
 cur = dict_cursor(conn)
