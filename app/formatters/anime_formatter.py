@@ -11,7 +11,7 @@ def formatear_media_anilist(item):
         title = titleAll.get("english") or titleAll.get("romaji")  
     elif origin == "CN":
         title = titleAll.get("english") or titleAll.get("romaji")
-    
+
     if format_ == "MANGA":
         if origin == "JP":
             kind = "MANGA"
@@ -20,7 +20,7 @@ def formatear_media_anilist(item):
         elif origin == "CN":
             kind = "MANHUA"
         tipo = "MANGA"
-    elif format_ in ("TV", "MOVIE", "OVA", "ONA"):
+    elif format_ in ("TV", "MOVIE", "OVA", "ONA", "TV_SHORT", "MUSIC", "SPECIAL"):
         if origin == "JP":
             kind = "ANIME"
         elif origin == "CN":
@@ -28,7 +28,8 @@ def formatear_media_anilist(item):
         tipo = "ANIME"
     else:
         kind = format_ or "UNKNOWN"
-        tipo = None
+        tipo = "None"
+        
     return {
         "id_api": item.get("id"),
         "titulo": title,
